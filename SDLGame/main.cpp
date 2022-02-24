@@ -1,6 +1,8 @@
 #include <iostream>
 #include <SDL.h> 
 #include <SDL_image.h>
+#include "Sprite.h"
+#include "Game.h"
 // We need to figure out how to...
 //1.	get SDL header files (.h files) to be included in this project so we can call its functions in the source code
 //2.	get SDL precompiled libraries (.lib files) to be linked in this project so when we compile our code it can connect with SDL's compiled code!
@@ -12,6 +14,18 @@
 
 //Things to look up:
 //C++ Classes and objects
+/*
+A class in C++... defines a new Type. It is a blueprint that allows you to create many Objects of this Type. 
+When you define a class, you can make variables of it as a new type
+
+A class can be instantiated to create a new Object
+
+A class contains data members and functions
+the data members can belong to instances of the class
+the functions can operate on that class
+
+*/ 
+
 //C++ functions
 //C++ pointers
 //SDL_Rect
@@ -19,71 +33,75 @@
 //SDL_Renderer
 //SDL_Window
 //nullptr
+Game myGame;
 
-int windowSizeX = 800; // Declaring integer called windowSizeX, assigning it the value 800
-int windowSizeY = 600;
-const char* windowName = "Hello SDL";
-SDL_Window* pWindow = nullptr; // Declaring a SDL_Window* (pointer to an object of type SDL_Window) called pWindow, assigning it the value nullptr
-SDL_Renderer* pRenderer = nullptr;
+/*
+main
+{
+	game = Game();
+	game.run();
+	
+	load()
+	while(gameRunning)
+	{
+		game.input();
+		game.update();
+		game.draw();
+	}
+	cleanup();
+}
+
+load()
+{
+	ship1 =  Ship()
+	ship1.setLocation(50,500)
+
+	ship2 =  Sprite("ship2.png")
+	ship2.setPosition(50,500)
+}
+
+update()
+{
+	ship1.update()
+}
+
+draw()
+{
+	ship1.draw();
+}
+
+*/
+
+
 
 // Main function.
 int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 {
-	// Setting up SDL features...
-	int flags = SDL_INIT_EVERYTHING;
-	if (SDL_Init(flags) != 0) // if initialized SDL correctly...
-	{
-		std::cout << "SDL failed to initialize" << std::endl;
-		return -1;
-	}
+	myGame.run();
 
-	// Create the window
-	pWindow = SDL_CreateWindow(windowName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowSizeX, windowSizeY, SDL_WINDOW_SHOWN);
-	if (pWindow == NULL) // If 
-	{
-		std::cout << "window failed to create" << std::endl;
-		return -1;
-	}
 
-	// The renderer is needed to draw to the screen
-	pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (pRenderer == NULL)
-	{
-		std::cout << "renderer failed to create" << std::endl;
-		return -1;
-	}
+	Sprite myShip = Sprite(pRenderer, "Assets/playerShip3_red.png");
+	myShip.setPosition(400, 600);
 
-	int whatWasInitialized = IMG_Init(IMG_INIT_PNG);
-	if (whatWasInitialized != IMG_INIT_PNG)
-	{
-		std::cout << "SDL_img failed to initialize" << std::endl;
-		return -1;
-	}
-
-	//Load texture
-	SDL_Texture* shipTexture = IMG_LoadTexture(pRenderer, "Assets/playerShip3_red.png");
-	SDL_Rect shipTextureDst;
-	SDL_QueryTexture(shipTexture, NULL, NULL, &shipTextureDst.w, &shipTextureDst.h);
-	shipTextureDst.x = 400 - shipTextureDst.w / 2;
-	shipTextureDst.y = 600 - shipTextureDst.h;
-	//shipTextureDst.w = 60;
-	//shipTextureDst.h = 40;
-
-	SDL_Texture* background = IMG_LoadTexture(pRenderer, "Assets/Backgrounds/purple.png");
+	Sprite myBackground = Sprite(pRenderer, "Assets/Backgrounds/purple.png");
+	myBackground.setSize(800, 600);
+	//SDL_Texture* background = IMG_LoadTexture(pRenderer, "Assets/Backgrounds/purple.png");
+	
 
 	float gameTimeSeconds = 0.0f;
 	while (true)
 	{
 		//Update
-		shipTextureDst.y = 200 + sin(gameTimeSeconds * 0.15f) * 100;//shipTextureDst.y - 2; //Make ship move
-		shipTextureDst.x = 400 + cos(gameTimeSeconds * 0.15f) * 100;
+		myShip.setPosition( 200 + sin(gameTimeSeconds * 0.15f) * 100,
+							400 + cos(gameTimeSeconds * 0.15f) * 100
+							);
 
 		//Render
 		SDL_SetRenderDrawColor(pRenderer, 255, 200, 200, 255); // Choose a color
 		SDL_RenderClear(pRenderer); // Clear canvas to color chosen
 
-		SDL_RenderCopy(pRenderer, background, NULL, NULL); // Render background image to cover entire screen
-		SDL_RenderCopy(pRenderer, shipTexture, NULL, &shipTextureDst); // Draw texture
+		myBackground.draw(pRenderer);
+		myShip.draw(pRenderer);
 
 		SDL_RenderPresent(pRenderer); // Make updated canvas visible on screen
 
@@ -94,10 +112,11 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 	getchar();
 
 	// Clean up
-	SDL_DestroyTexture(shipTexture);
-	SDL_DestroyTexture(background);
 	SDL_DestroyRenderer(pRenderer);
 	SDL_DestroyWindow(pWindow);
+
+	myShip.cleanup();
+	myBackground.cleanup();
 
 	return 0;
 }
