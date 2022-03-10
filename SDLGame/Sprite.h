@@ -60,6 +60,8 @@ public:
 	void setDimensions(int width, int height);
 	void setRotation(double rotationDegrees);
 
+	void cleanup();
+
 	//getters
 	SDL_Point getPosition();
 };

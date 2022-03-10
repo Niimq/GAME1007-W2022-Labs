@@ -26,6 +26,8 @@
 //SDL_Window
 //nullptr
 
+Game myGame;
+
 // Main function.
 int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 {
@@ -35,23 +37,11 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 	//Really really basic game loop... forever
 	while (true)
 	{
-		SDL_SetRenderDrawColor(pRenderer, 245, 180, 180, 255); // Select a color
-		SDL_RenderClear(pRenderer); // Paint the canvas according to the last selected color
-
-		//Drawing a ship
-		anotherShip.draw(pRenderer);
-		anotherShip.moveBy(0, 1);
-		
-		SDL_RenderPresent(pRenderer); // Show the canvas
-		SDL_Delay(16); // Wait 16 ms between frames
+		myGame.draw();
 	}
 
 	getchar();
-
-	//Cleanup
-	SDL_DestroyTexture(pShipImage);
-	SDL_DestroyRenderer(pRenderer);
-	SDL_DestroyWindow(pWindow);
+	myGame.cleanup();
 	std::cout << "bye!" << std::endl;
 	return 0;
 }
