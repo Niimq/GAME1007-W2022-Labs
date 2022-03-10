@@ -20,13 +20,13 @@
 //SDL_Window
 //nullptr
 
-int windowSizeX = 800;
-int windowSizeY = 600;
-const char* windowName = "Hello SDL";
+int windowSizeX = 1000;
+int windowSizeY = 770;
+const char* windowName = "Space Cadet";
 SDL_Window* pWindow = nullptr; //Declaring a pointer SDL_Window
 SDL_Renderer* pRenderer = nullptr;
 SDL_Texture* pShipimage;
-SDL_Rect ShipRectDst;
+SDL_Rect ShipRectDst, MonsterDst, pBackgroundDst, pMeteorDst, pLaserDst;
 
 // Main function.
 int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
@@ -55,24 +55,91 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 
 	}
 
-	SDL_SetRenderDrawColor(pRenderer, 285, 100, 100, 255); //Select a color
+	SDL_SetRenderDrawColor(pRenderer, 13, 10, 24, 0); //Select a color
 	SDL_RenderClear(pRenderer); //paint the canvas accoring to the last selected color
 
 
-	pShipimage = IMG_LoadTexture(pRenderer, "Assets/playerShip1_blue.png");
-	
+	SDL_Texture* pBackground;
+	pBackground = IMG_LoadTexture(pRenderer, "Assets/Background.png");
 
-	SDL_QueryTexture(pShipimage, NULL, NULL, &ShipRectDst.w, &ShipRectDst.h); //it gets the information of weidth and height of  ship.image (pixels)
 
-	ShipRectDst.x = 400 - ShipRectDst.w / 2;
-	ShipRectDst.y = 550 - ShipRectDst.h / 2;
+	SDL_QueryTexture(pBackground, NULL, NULL, &pBackgroundDst.w, &pBackgroundDst.h);
 
+
+	SDL_RenderCopy(pRenderer, pBackground, NULL, &pBackgroundDst);
+
+
+
+	///////////////////Sprite of Obstacles///////////////
+	////////////////////////////////////////////////////
+
+
+	SDL_Texture* pMeteor;
+	pMeteor = IMG_LoadTexture(pRenderer, "Assets/Meteors/meteorPruple_big2.png");
+
+	SDL_QueryTexture(pMeteor, NULL, NULL, &pMeteorDst.w, &pMeteorDst.h);
+
+	pMeteorDst.x = 700;
+	pMeteorDst.y = 370;
+
+
+	SDL_RenderCopy(pRenderer, pMeteor, NULL, &pMeteorDst);
+
+
+
+	///////////////////SPRTIE OF SHIP///////////////////
+	////////////////////////////////////////////////////
+
+
+
+	pShipimage = IMG_LoadTexture(pRenderer, "Assets/playerShip.png");
+
+	 //it gets the information of weidth and height of  ship.image (pixels)
+
+
+	ShipRectDst.w = 179;
+	ShipRectDst.h = 155;
+
+	ShipRectDst.x = 500 - ShipRectDst.w / 2;
+	ShipRectDst.y = 650 - ShipRectDst.h / 2;
 
 	SDL_RenderCopy(pRenderer, pShipimage, NULL, &ShipRectDst);
 
+
+
+	////////////////////////////////////////
+	///////// SPRITES OF ENEMIES //////////
+
+
+
+	SDL_Texture* pMonsterimage;
+	pMonsterimage = IMG_LoadTexture(pRenderer, "Assets/Monsters.png");
+
+	SDL_QueryTexture(pMonsterimage, NULL, NULL, &MonsterDst.w ,&MonsterDst.h);
+
+	MonsterDst.x = 255;
+	MonsterDst.y = 110;
+
+	
+
+		SDL_RenderCopy(pRenderer, pMonsterimage, NULL, &MonsterDst);
+
+		/////////////////////////////////////////////
+		////////////////////LASER///////////////////
+
+		SDL_Texture* pLaserimage;
+		pLaserimage = IMG_LoadTexture(pRenderer, "Assets/Lasers/ShipLaser.png");
+
+		SDL_QueryTexture(pLaserimage, NULL, NULL, &pLaserDst.w, &pLaserDst.h);
+
+		pLaserDst.x = 495;
+		pLaserDst.y = 500;
+
+		SDL_RenderCopy(pRenderer, pLaserimage, NULL, &pLaserDst);
+
 	SDL_RenderPresent(pRenderer); //Show the Canvas
 
-
+	cout << "hello";
 	getchar();
 	return 0;
 }
