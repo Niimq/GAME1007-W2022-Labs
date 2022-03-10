@@ -22,22 +22,45 @@ Sprite::Sprite(SDL_Renderer* pRenderer, const char* filename) : Sprite()
 	src.h = dst.h;
 }
 
-void Sprite::setPosition(int x, int y)
+void Sprite::setPosition(const float x, const float y)
 {
 	dst.x = x;
 	dst.y = y;
+	position.x = x;
+	position.y = y;
 }
 
-void Sprite::moveBy(int xOffset, int yOffset)
+void Sprite::moveBy(const float xOffset, const float yOffset)
 {
 	dst.x += xOffset;
 	dst.y += yOffset;
+	position.x += xOffset;
+	position.y += yOffset;
 }
 
 void Sprite::setSize(int width, int height)
 {
 	dst.w = width;
 	dst.h = height;
+}
+
+void Sprite::update(const float deltaTime)
+{
+	//Displacement is a change in position
+	//Velocity is a displacement over time 
+	// calculate displacment with vector multiplication by a scalar (velocity * time)
+	Vector2 displacement =
+	{
+		 velocity.x * deltaTime,
+		 velocity.y * deltaTime
+	};
+
+	//Use velocity and time to update our sprite position using vector addition (position + displacement)
+	position.x += displacement.x;
+	position.y += displacement.y;
+
+	dst.x = position.x;
+	dst.y = position.y;
 }
 
 void Sprite::draw(SDL_Renderer* pRenderer) const

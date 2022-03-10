@@ -29,6 +29,12 @@ A Sprite can do (functions):
 
 */
 
+struct Vector2
+{
+	float x;
+	float y;
+};
+
 class Sprite
 {
 private:
@@ -37,16 +43,20 @@ private:
 	SDL_Rect dst; // destination rectangle for rendering. Represents where the sprite will be drawn on-screen, and how big it will be when drawn
 
 public:
+	Vector2 position = { 0, 0 };
+	Vector2 velocity = { 0, 0 };
+
 	//Constructors. Special functions used when creating an object of this class.
 	Sprite(); // Default constructor
 	Sprite(SDL_Renderer* pRenderer, const char* filename); // 
 
 	//Member Functions. <return type><name>(<parameters>)
 	//Modifier or 'setter' function (changes something about the object)
-	void setPosition(int x, int y);
-	void moveBy(int xOffset, int yOffset);
+	void setPosition(const float x, const float y);
+	void moveBy(const float xOffset, const float yOffset);
 	void setSize(int width, int height);
 	
+	void update(const float deltaTime);
 	void draw(SDL_Renderer* pRenderer) const; // const after the function says it will not change anything
 
 	void cleanup();

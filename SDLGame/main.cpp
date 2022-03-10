@@ -33,8 +33,6 @@ the functions can operate on that class
 //SDL_Renderer
 //SDL_Window
 //nullptr
-Game myGame;
-
 /*
 main
 {
@@ -73,50 +71,13 @@ draw()
 */
 
 
+Game myGame;
 
 // Main function.
 int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 {
 	myGame.run();
-
-
-	Sprite myShip = Sprite(pRenderer, "Assets/playerShip3_red.png");
-	myShip.setPosition(400, 600);
-
-	Sprite myBackground = Sprite(pRenderer, "Assets/Backgrounds/purple.png");
-	myBackground.setSize(800, 600);
-	//SDL_Texture* background = IMG_LoadTexture(pRenderer, "Assets/Backgrounds/purple.png");
-	
-
-	float gameTimeSeconds = 0.0f;
-	while (true)
-	{
-		//Update
-		myShip.setPosition( 200 + sin(gameTimeSeconds * 0.15f) * 100,
-							400 + cos(gameTimeSeconds * 0.15f) * 100
-							);
-
-		//Render
-		SDL_SetRenderDrawColor(pRenderer, 255, 200, 200, 255); // Choose a color
-		SDL_RenderClear(pRenderer); // Clear canvas to color chosen
-
-		myBackground.draw(pRenderer);
-		myShip.draw(pRenderer);
-
-		SDL_RenderPresent(pRenderer); // Make updated canvas visible on screen
-
-		SDL_Delay(16);
-		gameTimeSeconds += 0.16;
-	}
 	
 	getchar();
-
-	// Clean up
-	SDL_DestroyRenderer(pRenderer);
-	SDL_DestroyWindow(pWindow);
-
-	myShip.cleanup();
-	myBackground.cleanup();
-
 	return 0;
 }
