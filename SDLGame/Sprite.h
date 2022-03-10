@@ -45,11 +45,17 @@ private:
 	//a double is short for double-precision floating-point number. float is short for floating point number
 	double rotation;
 
-
 public:
+
+	Vector2 position = {0,0};
+	Vector2 velocity = {0,0};
+
 	//Constructors
 	Sprite(); // default constructor
 	Sprite(SDL_Renderer* pRenderer, const char* textureFilename); // constructor with parameters for the image file
+
+	//Updates position based on position and velocity vectors
+	void update(const float deltaTime);
 
 	//Declaring Member functions <return type><name>(<parameters>)
 	void draw(SDL_Renderer* pRenderer);

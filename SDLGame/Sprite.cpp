@@ -29,6 +29,25 @@ Sprite::Sprite(SDL_Renderer* pRenderer, const char* textureFilename)
 	src.h = dst.h;
 }
 
+void Sprite::update(const float deltaTime)
+{
+	//displacement is a change in position
+	//velocity is defined as displacement / time,
+	//if we multiply velocity by time we get displacement
+	Vector2 displacement =
+	{
+		velocity.x * deltaTime,
+		velocity.y * deltaTime
+	};
+
+	//add displacement to position
+	position.x = position.x + displacement.x;
+	position.y = position.y + displacement.y;
+
+	dst.x = position.x + 0.5f; // add 0.5 if you want to round up/down when converting float to int
+	dst.y = position.y + 0.5f; // add 0.5 if you want to round up/down when converting float to int
+}
+
 void Sprite::draw(SDL_Renderer* pRenderer)
 {
 	SDL_RenderCopyEx(pRenderer, pImage, &src, &dst, rotation, nullptr, SDL_FLIP_NONE); // Draw our texture at the destination position, width, and size
@@ -38,12 +57,16 @@ void Sprite::setPosition(int x, int y)
 {
 	dst.x = x;
 	dst.y = y;
+	position.x = x;
+	position.y = y;
 }
 
 void Sprite::moveBy(int x, int y)
 {
 	dst.x += x;
 	dst.y += y;
+	position.x += x;
+	position.y += y;
 }
 
 void Sprite::setDimensions(int width, int height)

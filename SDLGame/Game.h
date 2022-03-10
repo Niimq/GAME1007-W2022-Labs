@@ -15,15 +15,21 @@ class Game
 
 	Sprite anotherShip;
 
+	bool isUpPressed = false;
+	bool isRightPressed = false;
+	bool isDownPressed = false;
+	bool isLeftPressed = false;
+
 public:
 	//Constructor
 	Game();
+	Game(const char* windowName);
 
 	//Game loop functions
 	void run();
 
 	void input();
-	void update();
+	void update(const float deltaTime);
 	void draw();
 
 	void quit();
