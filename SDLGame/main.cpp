@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL.h> 
 #include <SDL_image.h>
+#include "Sprites.h"
 // We need to figure out how to...
 //1.	get SDL header files (.h files) to be included in this project so we can call its functions in the source code
 //2.	get SDL precompiled libraries (.lib files) to be linked in this project so when we compile our code it can connect with SDL's compiled code!
@@ -12,6 +13,7 @@
 
 //Things to look up:
 //C++ Classes and objects
+// In C++ A class is a new type which "encapsulates" data members and functions.
 //C++ functions
 //C++ pointers
 //SDL_Rect
@@ -33,7 +35,7 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 {
 	int flags = SDL_INIT_EVERYTHING;
 	int rendererflags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC; //These are two integers representing setting combined with
-	                                                            //-with the | operator. This patter you will see in other cases too.
+																//-with the | operator. This patter you will see in other cases too.
 	//getting everything booted up
 	if (SDL_Init(flags) == 0) // if initialized SDL correctly...
 	{
@@ -54,11 +56,7 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 		}
 
 	}
-
-	SDL_SetRenderDrawColor(pRenderer, 13, 10, 24, 0); //Select a color
-	SDL_RenderClear(pRenderer); //paint the canvas accoring to the last selected color
-
-
+	
 	SDL_Texture* pBackground;
 	pBackground = IMG_LoadTexture(pRenderer, "Assets/Background.png");
 
@@ -94,7 +92,7 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 
 	pShipimage = IMG_LoadTexture(pRenderer, "Assets/playerShip.png");
 
-	 //it gets the information of weidth and height of  ship.image (pixels)
+	//it gets the information of weidth and height of  ship.image (pixels)
 
 
 	ShipRectDst.w = 179;
@@ -105,6 +103,22 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 
 	SDL_RenderCopy(pRenderer, pShipimage, NULL, &ShipRectDst);
 
+	/////////////////////////////////////////////
+////////////////////LASER///////////////////
+
+	SDL_Texture* pLaserimage;
+	pLaserimage = IMG_LoadTexture(pRenderer, "Assets/Lasers/ShipLaser.png");
+
+	SDL_QueryTexture(pLaserimage, NULL, NULL, &pLaserDst.w, &pLaserDst.h);
+
+	pLaserDst.x = 495;
+	pLaserDst.y = 500;
+
+	SDL_RenderCopy(pRenderer, pLaserimage, NULL, &pLaserDst);
+
+	SDL_RenderPresent(pRenderer); //Show the Canvas
+
+
 
 
 	////////////////////////////////////////
@@ -112,34 +126,49 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 
 
 
-	SDL_Texture* pMonsterimage;
-	pMonsterimage = IMG_LoadTexture(pRenderer, "Assets/Monsters.png");
 
-	SDL_QueryTexture(pMonsterimage, NULL, NULL, &MonsterDst.w ,&MonsterDst.h);
+		SDL_Texture* pMonsterimage;
+		pMonsterimage = IMG_LoadTexture(pRenderer, "Assets/Monsters.png");
 
-	MonsterDst.x = 255;
-	MonsterDst.y = 110;
+		SDL_QueryTexture(pMonsterimage, NULL, NULL, &MonsterDst.w, &MonsterDst.h);
 
-	
+		MonsterDst.x = 255;
+		MonsterDst.y = 110;
 
-		SDL_RenderCopy(pRenderer, pMonsterimage, NULL, &MonsterDst);
+		Sprites anotherMonster = Sprites(pRenderer, "Assets/playerShipasaledition.png");
+		anotherMonster.setPoisition(600, 300);
+		anotherMonster.setDimensions(30, 40);
 
-		/////////////////////////////////////////////
-		////////////////////LASER///////////////////
 
-		SDL_Texture* pLaserimage;
-		pLaserimage = IMG_LoadTexture(pRenderer, "Assets/Lasers/ShipLaser.png");
 
-		SDL_QueryTexture(pLaserimage, NULL, NULL, &pLaserDst.w, &pLaserDst.h);
+		while (true)
+		{
 
-		pLaserDst.x = 495;
-		pLaserDst.y = 500;
 
-		SDL_RenderCopy(pRenderer, pLaserimage, NULL, &pLaserDst);
+			SDL_SetRenderDrawColor(pRenderer, 13, 10, 24, 0); //Select a color
+			SDL_RenderClear(pRenderer); //paint the canvas accoring to the last selected color
 
-	SDL_RenderPresent(pRenderer); //Show the Canvas
+			//drawing a ship
 
-	cout << "hello";
+			anotherMonster.draw(pRenderer);
+			anotherMonster.moveBy(0, -1);
+
+			MonsterDst.y = MonsterDst.y - 1;
+			SDL_RenderCopy(pRenderer, pMonsterimage, NULL, &MonsterDst);
+
+			SDL_RenderPresent(pRenderer); // Show the canvas
+			SDL_Delay(16); // Wait 16ms between frames
+		}
+	    
+    
+
+
 	getchar();
+
+	//Cleanup
+	SDL_DestroyTexture(pShipimage);
+	SDL_DestroyRenderer(pRenderer);
+	SDL_DestroyWindow (pWindow);
+	std::cout << "bye!" << std::endl;
 	return 0;
 }
