@@ -26,6 +26,7 @@
     //myship.move(2,0) // move horizontally to the right relative to its current position
     //myShip.Dimensions(60, 60) //set size in pixels
     //myShip.setScale(2.5, 2.5) // scale sprite by 2.5x
+    // my.Ship setRotation(100)
 
 
 //2-dimensional vector
@@ -46,6 +47,9 @@ private:
 	SDL_Rect dst; //destination rectangle, representing position and size of the sprite
 	SDL_Rect src; //source rectangle, representing which part of the texture to draw this sprite from
 
+	//a double is short for double-precision floating-point number. float is short for floating point number
+	double rotation;
+
 public:
 	//Constructors
 	Sprites(); // default constructor
@@ -55,9 +59,17 @@ public:
 	void draw(SDL_Renderer* pRenderer);
 
 
-	//setter
+	//SDL setters or modifiers
 	void setPoisition(int x, int y);
 	void moveBy(int x, int y);
 	void setDimensions(int width, int height);
+	void setRotation(double rotationDegrees);
+
+	void cleanup();
+
+	//SDL getters
+	SDL_Point getPosition();
+
+
 };
 

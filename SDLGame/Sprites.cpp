@@ -4,6 +4,7 @@
 Sprites::Sprites()
 {
 	pImage = nullptr;
+	rotation = 0;
 	dst.x = 0;
 	dst.y = 0;
 	dst.w = 0;
@@ -19,6 +20,7 @@ Sprites::Sprites()
 
 Sprites::Sprites(SDL_Renderer* pRenderer, const char* texturefilename)
 {
+	rotation = 0;
 	dst.x = 0;
 	dst.y = 0;
 	pImage = IMG_LoadTexture(pRenderer, texturefilename);
@@ -33,7 +35,7 @@ Sprites::Sprites(SDL_Renderer* pRenderer, const char* texturefilename)
 
 void Sprites::draw(SDL_Renderer* pRenderer)
 {
-	SDL_RenderCopy(pRenderer, pImage, &src, &dst);
+	SDL_RenderCopyEx(pRenderer, pImage, &src, &dst, rotation, nullptr, SDL_FLIP_NONE);
 }
 
 void Sprites::setPoisition(int x, int y)
@@ -54,5 +56,15 @@ void Sprites::setDimensions(int width, int height)
 {
 	dst.w = width;
 	dst.h = height;
+}
+
+void Sprites::setRotation(double rotationDegrees)
+{
+	rotation = rotationDegrees;
+}
+
+void Sprites::cleanup()
+{
+	SDL_DestroyTexture(pImage);
 }
 
