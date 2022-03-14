@@ -131,13 +131,14 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 		pMonsterimage = IMG_LoadTexture(pRenderer, "Assets/Monsters.png");
 
 		SDL_QueryTexture(pMonsterimage, NULL, NULL, &MonsterDst.w, &MonsterDst.h);
+		SDL_RenderCopy(pRenderer, pMonsterimage, NULL, &MonsterDst);
 
-		MonsterDst.x = 255;
-		MonsterDst.y = 110;
+		MonsterDst.x = 300;
+		MonsterDst.y = 410;
 
-		Sprites anotherMonster = Sprites(pRenderer, "Assets/playerShipasaledition.png");
-		anotherMonster.setPoisition(600, 300);
-		anotherMonster.setDimensions(30, 40);
+		Sprites anotherMonster = Sprites(pRenderer, "Assets/playerShip.png");
+		anotherMonster.setPoisition(20, 700);
+		//anotherMonster.setDimensions(30, 40);
 
 
 
@@ -148,16 +149,28 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 			SDL_SetRenderDrawColor(pRenderer, 13, 10, 24, 0); //Select a color
 			SDL_RenderClear(pRenderer); //paint the canvas accoring to the last selected color
 
+			//background details
+			SDL_Texture* pBackground;
+			pBackground = IMG_LoadTexture(pRenderer, "Assets/Background.png");
+
+
+			SDL_QueryTexture(pBackground, NULL, NULL, &pBackgroundDst.w, &pBackgroundDst.h);
+
+
+			SDL_RenderCopy(pRenderer, pBackground, NULL, &pBackgroundDst);
+
+
 			//drawing a ship
 
 			anotherMonster.draw(pRenderer);
-			anotherMonster.moveBy(0, -1);
+			anotherMonster.moveBy(2, -1);
 
-			MonsterDst.y = MonsterDst.y - 1;
+			MonsterDst.y += -2.5;
+			MonsterDst.x += 1;
 			SDL_RenderCopy(pRenderer, pMonsterimage, NULL, &MonsterDst);
 
 			SDL_RenderPresent(pRenderer); // Show the canvas
-			SDL_Delay(16); // Wait 16ms between frames
+			SDL_Delay(20); // Wait 16ms between frames
 		}
 	    
     

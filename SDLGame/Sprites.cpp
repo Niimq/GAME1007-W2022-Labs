@@ -10,8 +10,8 @@ Sprites::Sprites()
 	dst.h = 0;
 	src.x = 0;
 	src.y = 0;
-	src.w = dst.w;
-	src.h = dst.h;
+	src.w = 0;
+	src.h = 0;
 
 
 
@@ -45,8 +45,8 @@ void Sprites::setPoisition(int x, int y)
 
 void Sprites::moveBy(int x, int y)
 {
-	dst.x = x;
-	dst.y = y;
+	dst.x += x;
+	dst.y += y;
 }
 
 
