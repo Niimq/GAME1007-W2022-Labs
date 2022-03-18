@@ -31,89 +31,9 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 	myGame = Game();
 	myGame.run();
 	
-	SDL_Renderer* pRenderer = nullptr;
-	SDL_Texture* pShipimage;
-	SDL_Rect ShipRectDst, MonsterDst, pBackgroundDst, pMeteorDst, pLaserDst;
 	
-	SDL_Texture* pBackground;
-	pBackground = IMG_LoadTexture(pRenderer, "Assets/Background.png");
-
-
-	SDL_QueryTexture(pBackground, NULL, NULL, &pBackgroundDst.w, &pBackgroundDst.h);
-
-
-	SDL_RenderCopy(pRenderer, pBackground, NULL, &pBackgroundDst);
-
-
-
-	///////////////////Sprite of Obstacles///////////////
-	////////////////////////////////////////////////////
-
-
-	SDL_Texture* pMeteor;
-	pMeteor = IMG_LoadTexture(pRenderer, "Assets/Meteors/meteorPruple_big2.png");
-
-	SDL_QueryTexture(pMeteor, NULL, NULL, &pMeteorDst.w, &pMeteorDst.h);
-
-	pMeteorDst.x = 700;
-	pMeteorDst.y = 370;
-
-
-	SDL_RenderCopy(pRenderer, pMeteor, NULL, &pMeteorDst);
-
-
-
-	///////////////////SPRTIE OF SHIP///////////////////
-	////////////////////////////////////////////////////
-
-
-
-	pShipimage = IMG_LoadTexture(pRenderer, "Assets/playerShip.png");
-
-	//it gets the information of weidth and height of  ship.image (pixels)
-
-
-	ShipRectDst.w = 179;
-	ShipRectDst.h = 155;
-
-	ShipRectDst.x = 500 - ShipRectDst.w / 2;
-	ShipRectDst.y = 650 - ShipRectDst.h / 2;
-
-	SDL_RenderCopy(pRenderer, pShipimage, NULL, &ShipRectDst);
-
-	/////////////////////////////////////////////
-////////////////////LASER///////////////////
-
-	SDL_Texture* pLaserimage;
-	pLaserimage = IMG_LoadTexture(pRenderer, "Assets/Lasers/ShipLaser.png");
-
-	SDL_QueryTexture(pLaserimage, NULL, NULL, &pLaserDst.w, &pLaserDst.h);
-
-	pLaserDst.x = 495;
-	pLaserDst.y = 500;
-
-	SDL_RenderCopy(pRenderer, pLaserimage, NULL, &pLaserDst);
-
-	SDL_RenderPresent(pRenderer); //Show the Canvas
-
-
-
-
-	////////////////////////////////////////
-	///////// SPRITES OF ENEMIES //////////
-
-
-
-
-		SDL_Texture* pMonsterimage;
-		pMonsterimage = IMG_LoadTexture(pRenderer, "Assets/Monsters.png");
-
-		SDL_QueryTexture(pMonsterimage, NULL, NULL, &MonsterDst.w, &MonsterDst.h);
-		SDL_RenderCopy(pRenderer, pMonsterimage, NULL, &MonsterDst);
-
-		MonsterDst.x = 300;
-		MonsterDst.y = 410;
-
+	
+	
 	getchar();
 	std::cout << "bye!" << std::endl;
 	return 0;

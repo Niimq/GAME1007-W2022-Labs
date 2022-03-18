@@ -2,7 +2,7 @@
 #include "Game.h"
 #include <SDL_image.h>
 #include "Sprites.h"
-
+Sprites anotherMonster;
 Game::Game()
 {
 	
@@ -29,6 +29,11 @@ Game::Game()
 		}
 
 	}
+
+	SDL_Renderer* pRenderer = nullptr;
+	SDL_Rect ShipRectDst, MonsterDst, pBackgroundDst, pMeteorDst, pLaserDst;
+
+
 }
 
 void Game::run()
@@ -69,6 +74,18 @@ void Game::update()
 
 void Game::draw()
 {
+
+	SDL_Texture* pMonsterimage;
+	pMonsterimage = IMG_LoadTexture(pRenderer, "Assets/Monsters.png");
+
+	SDL_QueryTexture(pMonsterimage, NULL, NULL, &MonsterDst.w, &MonsterDst.h);
+	SDL_RenderCopy(pRenderer, pMonsterimage, NULL, &MonsterDst);
+
+	MonsterDst.x = 300;
+	MonsterDst.y = 410;
+
+
+
 
 	SDL_SetRenderDrawColor(pRenderer, 13, 10, 24, 0); //Select a color
 	SDL_RenderClear(pRenderer); //paint the canvas accoring to the last selected color
