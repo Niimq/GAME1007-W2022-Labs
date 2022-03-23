@@ -23,7 +23,7 @@
 //SDL_Window
 //nullptr
 
-
+Game myGame;
 
 // Main function.
 int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
@@ -31,10 +31,16 @@ int main(int argc, char* args[]) // Main MUST have these parameters for SDL.
 	myGame = Game();
 	myGame.run();
 	
-	
+	// Really really basic game loop forever
+	while (true)
+	{
+		myGame.draw();
+	}
 	
 	
 	getchar();
+
+	myGame.cleanup();
 	std::cout << "bye!" << std::endl;
 	return 0;
 }
